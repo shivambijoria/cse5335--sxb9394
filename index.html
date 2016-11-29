@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+#animate {
+  width: 350px;
+  height: 50px;
+  position: relative;
+  background-color: yellow;
+  
+  
+}
+</style>
+<head>
+<h1>COUNTRIES AND THEIR POPULATION </h1>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+var out;
+var Id=[];
+var Country=[];
+var Population=[];
+var arrayindex=0;
+$(document).ready(function(){
+    $("button").click(function(){
+        
+setInterval(ajaxCall, 500); 		
+		
+function ajaxCall() {
+$.ajax({
+      type: 'GET',
+      url: 'http://localhost:8080/api',
+      crossDomain: true,
+      data: {},
+      cache: false,
+      success: function(data) {
+
+      console.log(data);  
+		var i;
+    Id[arrayindex]=data.Id;
+	Country[arrayindex]=data.Country;
+    Population[arrayindex]=data.Population;
+	arrayindex=arrayindex+1;	
+	   
+	out="";   
+	if (Id.length<=20){
+	for(i = 0; i < Id.length; i++) {   
+		out += "<tr><td>" + 
+		Id[i] +
+		"</td><td>" +
+        Country[i] +
+        "</td><td>" +
+        Population[i] +
+        "</td></tr>" ;
+    }
+    }
+	else{
+	for(i = Id.length-20; i < Id.length; i++) {   
+		out += "<tr><td>" + 
+		Id[i] +
+		"</td><td>" +
+        Country[i] +
+        "</td><td>" +
+        Population[i] +
+        "</td></tr>" ;
+    }
+	}
+    document.getElementById("id01").innerHTML = "<table>" + out + "</table>";
+	
+	
+	
+    //animation starts
+	document.getElementById("animate").innerHTML = data.Id+" " + data.Country+" "+data.Population;
+	var elem = document.getElementById("animate");   
+  var pos = 0;
+  var pos1 = 1100;
+  var id = setInterval(frame, 50);
+  function frame() {
+    if (pos >= 200) {
+      clearInterval(id);
+    } else {
+      pos=pos+20;
+	  pos1=pos1-70;
+      elem.style.top = pos + 'px'; 
+      elem.style.left = pos1 + 'px'; 
+    }
+  }
+	//animation ends	
+		
+	  }
+    });
+	
+	
+	
+}
+
+		
+    });
+});
+</script>
+</head>
+<body>
+
+<button>Send an HTTP GET request to a page and get the result back</button>
+<div id ="animate"></div>
+<div id="id01"></div>
+</body>
+</html>
