@@ -144,6 +144,11 @@ router.get('/api', function(req, res) {
 	count=count+1;	
 });
 
+router.get('/', function(req, res) {
+	res.sendfile(path.join(__dirname + '/index.html'));
+	
+});
+
 /*
 router.get('/chart', function(req, res) {
     res.json(
