@@ -8,6 +8,8 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mongodb = require('mongodb');
+var fs = require('fs');
+var path = require('path');
 
 
 var MongoClient = mongodb.MongoClient;
@@ -192,7 +194,10 @@ router.get('/api', function(req, res) {
     });
 		
 });
-
+router.get('/', function(req, res) {
+	res.sendfile(path.join(__dirname + '/index.html'));
+	
+});
 
 // more routes for our API will happen here
 
